@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clickable 3D Rotating Cards</title>
+    <style>
+        /* Set body and html to fill the viewport and remove default margin */
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            /* Prevents horizontal scrollbar from appearing due to 3D overflow */
+            overflow-x: hidden;
+            /* Prevent default touch actions like pull-to-refresh */
+            touch-action: none;
+        }
+
+        /* --- MODIFICATION: Added styles for the background video --- */
+        #bg-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            width: 400px;
+            height: auto;
+            z-index: -1;
+            /* Optional: Add a filter for better text readability */
+            filter: brightness(0.5);
+        }
+
+        /* Container for text above the animation */
+        .header-text {
+            color: white;
+            text-align: center;
+            font-size: 10px;
+            margin-top: 40px;
+            height: 50px;
+        }
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            height: 80px;
+        }
+
+        /* Style for the logos */
+        .logo {
+            height: 70px;
+            width: auto;
+        }
+
+        .logo1 {
+            height: 150px;
+            width: auto;
+        }
+        .wrapper {
+            width: 100%;
+            /* Reduced height to make space for the text */
+            height: 70%; 
+            position: relative;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            cursor: grab;
+        }
+
+        .inner {
+            /* Card dimensions for desktop */
+            --w: 120px;
+            --h: 180px;
+            
+            /* Adjust this value to change the circle's radius */
+            --translateZ: 150px; 
+            
+            --rotateX: 0deg; 
+            --perspective: 1000px;
+            
+            position: relative; /* Changed from absolute */
+            width: var(--w);
+            height: var(--h);
+            z-index: 2;
+            
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            
+            -webkit-transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0deg);
+            transform: perspective(var(--perspective)) rotateX(var(--rotateX)) rotateY(0deg);
+
+            /* Added transition for smooth snapping */
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .card-link {
+            position: absolute;
+            inset: 0;
+            display: block;
+            
+            -webkit-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+            
+            -webkit-transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
+            transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ));
+            
+            -webkit-transition: transform 0.3s ease;
+            transition: transform 0.3s ease;
+        }
+        
+        .card-link:hover {
+            -webkit-transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ)) translateY(-10px);
+            transform: rotateY(calc((360deg / var(--quantity)) * var(--index))) translateZ(var(--translateZ)) translateY(-10px);
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(var(--color-card), 0.8);
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: radial-gradient(
+                circle,
+                rgba(var(--color-card), 0.2) 0%,
+                rgba(var(--color-card), 0.6) 80%,
+                rgba(var(--color-card), 0.9) 100%
+            );
+        }
+        
+        .img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Media query for mobile devices */
+        @media (max-width: 600px) {
+            .inner {
+                /* Made cards a bit smaller on mobile */
+                --w: 50vw;
+                --h: 75vw;
+                
+                /* Adjust translateZ for mobile */
+                --translateZ: 45vw;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- --- MODIFICATION: Added video background --- -->
+    <!-- The video will autoplay, loop, and be muted -->
+    <video autoplay loop muted id="bg-video">
+        <!-- Replace this with the path to your video file -->
+        <source src="video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- A div for your text -->
+    <header class="top-header">
+        <img src="Untitled design.png" alt="Left Logo" class="logo">
+        
+        <img src="Gemini_Generated_Image_tp55sltp55sltp55.png" alt="Right Logo" class="logo1">
+    </header>
+    <div class="header-text">
+        <h1>TechOps X RUSH4RUSH</h1>
+    </div>
+    
+    <div class="wrapper">
+        
+        <div class="inner" style="--quantity: 4;">
+            <a href="#" class="card-link" style="--index: 0; --color-card: 142, 249, 252;">
+                <div class="card"><div class="img"><img src="BGMI DP_ How to Change BGMI Profile Picture from Gallery.jpeg" alt="Card Image 1" onerror="this.onerror=null;this.src='https://placehold.co/120x180/8ef9fc/000?text=Image+1';"></div></div>
+            </a>
+            <a href="https://unstop.com/p/e-football-rush4rush-universal-ai-university-mumbai-1531142" class="card-link" style="--index: 1; --color-card: 142, 252, 204;">
+                <div class="card"><div class="img"><img src="Fc 25.jpeg" alt="Card Image 2" onerror="this.onerror=null;this.src='https://placehold.co/120x180/8efcec/000?text=Image+2';"></div></div>
+            </a>
+            <a href="https://unstop.com/events/need-for-speed-rush4rush-universal-ai-university-mumbai-1531113" class="card-link" style="--index: 2; --color-card: 142, 252, 157;">
+                <div class="card"><div class="img"><img src="Nfs.jpeg" alt="Card Image 3" onerror="this.onerror=null;this.src='https://placehold.co/120x180/8efc9d/000?text=Image+3';"></div></div>
+            </a>
+            <a href="#" class="card-link" style="--index: 3; --color-card: 181, 252, 142;">
+                <div class="card"><div class="img"><img src="Valorant HD Wallpaper for Mobile Phones.jpeg" alt="Card Image 4" onerror="this.onerror=null;this.src='https://placehold.co/120x180/b5fc8e/000?text=Image+4';"></div></div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const inner = document.querySelector('.inner');
+        const wrapper = document.querySelector('.wrapper');
+        const cardCount = 4;
+        const anglePerCard = 360 / cardCount;
+
+        let isDragging = false;
+        let startX;
+        let startRotation;
+        let currentRotation = 0;
+
+        // Function to apply rotation transform
+        function applyRotation(rotation) {
+            const perspective = getComputedStyle(inner).getPropertyValue('--perspective');
+            const rotateX = getComputedStyle(inner).getPropertyValue('--rotateX');
+            inner.style.transform = `perspective(${perspective}) rotateX(${rotateX}) rotateY(${rotation}deg)`;
+        }
+
+        // --- Event Handlers ---
+        function dragStart(e) {
+            isDragging = true;
+            // Use touch or mouse event accordingly
+            startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            startRotation = currentRotation;
+            wrapper.style.cursor = 'grabbing';
+            // Remove transition for immediate feedback while dragging
+            inner.style.transition = 'none';
+        }
+
+        function dragMove(e) {
+            if (!isDragging) return;
+            // Prevent default browser actions (like scrolling)
+            e.preventDefault();
+            
+            const currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            const deltaX = currentX - startX;
+            
+            // Adjust sensitivity of the drag
+            const rotationChange = deltaX * 0.5; 
+            currentRotation = startRotation + rotationChange;
+            
+            applyRotation(currentRotation);
+        }
+
+        function dragEnd(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            wrapper.style.cursor = 'grab';
+            
+            // Add back the transition for smooth snapping
+            inner.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+
+            // --- Snapping Logic ---
+            // Calculate the nearest card index
+            const closestIndex = Math.round(currentRotation / anglePerCard);
+            // Calculate the target rotation to snap to
+            const targetRotation = closestIndex * anglePerCard;
+            
+            currentRotation = targetRotation;
+            applyRotation(currentRotation);
+        }
+
+        // --- Event Listeners ---
+        // Mouse events
+        wrapper.addEventListener('mousedown', dragStart);
+        window.addEventListener('mousemove', dragMove);
+        window.addEventListener('mouseup', dragEnd);
+        
+        // Touch events
+        wrapper.addEventListener('touchstart', dragStart);
+        window.addEventListener('touchmove', dragMove);
+        window.addEventListener('touchend', dragEnd);
+
+    </script>
+
+</body>
+</html>
